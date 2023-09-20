@@ -35,7 +35,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	seed, err := strconv.Atoi(seedString)
 	if err != nil {
-		fmt.Fprintf(w, "seed is not a number: %s", err)
+		http.Error(w, fmt.Sprintf("setConf error: %s", err), http.StatusInternalServerError)
 		return
 	}
 	fmt.Fprintf(w, "seed is %d", seed)
