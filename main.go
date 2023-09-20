@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/fmhr/fj"
 	"github.com/pelletier/go-toml/v2"
 )
 
@@ -50,14 +49,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Printf("Received command: %s\n", cmd)
-	runCloud(0)
 
 	w.Write([]byte("Hello " + cmd + "!\n"))
-}
-
-// tester はある。
-func runCloud(seed int) {
-	var cnf fj.Config
-	cnf.GenPath = "./gen"
-	fj.Gen(&cnf, seed)
 }
