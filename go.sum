@@ -3,6 +3,10 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/fmhr/fj v0.0.6 h1:9GmNls+cFM51Zj8nhn8FSinWETkA0l9efll7//FbSWA=
 github.com/fmhr/fj v0.0.6/go.mod h1:b+Ns3sgiARxzJVngwItN+v9eAxeLP7SFLGtPjKh63VA=
+github.com/fmhr/fj v0.0.7 h1:d7lmCpmD6v68uD4/HIqE2JXPt1pVa9T1wNLFL6eaEeo=
+github.com/fmhr/fj v0.0.7/go.mod h1:b+Ns3sgiARxzJVngwItN+v9eAxeLP7SFLGtPjKh63VA=
+github.com/fmhr/fj v0.0.8 h1:dD6pVdsU5yiAq8LI77mSoGM0zccHzatWqMChC8iQe2s=
+github.com/fmhr/fj v0.0.8/go.mod h1:b+Ns3sgiARxzJVngwItN+v9eAxeLP7SFLGtPjKh63VA=
 github.com/mattn/go-runewidth v0.0.9 h1:Lm995f3rfxdpd6TSmuVCHVb/QhupuXlYr8sCI/QdE+0=
 github.com/mattn/go-runewidth v0.0.9/go.mod h1:H031xJmbD/WCDINGzjvQ9THkh0rPKHF+m2gUSrubnMI=
 github.com/mattn/go-runewidth v0.0.15 h1:UNAjwbU9l54TA3KzvqLGxwWjHmMgBUVhBiTjelZgg3U=

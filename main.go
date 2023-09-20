@@ -1,14 +1,14 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/fmhr/fj"
-	"github.com/pelletier/go-toml/v2"
 )
 
 func main() {
@@ -26,35 +26,44 @@ func main() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Only POST method is allowed", http.StatusMethodNotAllowed)
+	cnf := setConf()
+	// seed
+	seedString := r.URL.Query().Get("seed")
+	if seedString == "" {
+		fmt.Fprint(w, "seed is empty")
 		return
 	}
-	body, err := io.ReadAll(r.Body)
+	seed, err := strconv.Atoi(seedString)
 	if err != nil {
-		http.Error(w, "Error reading request body", http.StatusInternalServerError)
+		fmt.Fprintf(w, "seed is not a number: %s", err)
 		return
 	}
-	defer r.Body.Close()
+	fmt.Fprintf(w, "seed is %d", seed)
+	fj.Gen(&cnf, seed) // generate in/{seed}.txt
+	// Config
+	// reactive
+	reactiveString := r.URL.Query().Get("reactive")
+	var rtn map[string]float64
+	if reactiveString == "" {
+		cnf.Reactive = false
+		rtn, err = fj.RunVis(&cnf, seed)
+	} else {
+		cnf.Reactive = true
+		rtn, err = fj.ReactiveRun(&cnf, seed)
+	}
+	if err != nil {
+		http.Error(w, fmt.Sprintf("run error: %s", err), http.StatusInternalServerError)
+	}
+	jdonData, err := json.Marshal(rtn)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("json error: %s", err), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jdonData)
+}
 
-	var conf fj.Config
-	if err := toml.Unmarshal(body, &data); err != nil {
-		http.Error(w, "Error unmarshaling request body", http.StatusInternalServerError)
-		return
-	}
-	log.Println("received request")
-
-	cmd, ok := data["Cmd"].(string)
-	if !ok {
-		http.Error(w, "Cmd is missing or not a string", http.StatusBadRequest)
-		return
-	}
-	fmt.Printf("Received command: %s\n", cmd)
-	seed, ok := data["seed"].(int)
-	if !ok {
-		http.Error(w, "seed is missing or not a string", http.StatusBadRequest)
-		return
-	}
-	fj.Gen(data, seed)
-	w.Write([]byte("Hello " + cmd + "!\n"))
+func setConf() (c fj.Config) {
+	c.GenPath = "gen"
+	return
 }
