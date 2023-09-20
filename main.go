@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/fmhr/fj"
 	"github.com/pelletier/go-toml/v2"
 )
 
@@ -36,7 +37,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	var data map[string]interface{}
+	var conf fj.Config
 	if err := toml.Unmarshal(body, &data); err != nil {
 		http.Error(w, "Error unmarshaling request body", http.StatusInternalServerError)
 		return
@@ -49,6 +50,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Printf("Received command: %s\n", cmd)
-
+	seed, ok := data["seed"].(int)
+	if !ok {
+		http.Error(w, "seed is missing or not a string", http.StatusBadRequest)
+		return
+	}
+	fj.Gen(data, seed)
 	w.Write([]byte("Hello " + cmd + "!\n"))
 }
