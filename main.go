@@ -53,6 +53,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		rtn, err = fj.ReactiveRun(&cnf, seed)
 	}
 	if err != nil {
+		log.Println("run error:", err)
 		http.Error(w, fmt.Sprintf("run error: %s", err), http.StatusInternalServerError)
 	}
 	jdonData, err := json.Marshal(rtn)
