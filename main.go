@@ -65,5 +65,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func setConf() (c fj.Config) {
 	c.GenPath = "gen"
+	c.VisPath = "vis"
+	c.TesterPath = "tester"
 	return
 }
