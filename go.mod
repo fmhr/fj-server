@@ -3,7 +3,7 @@ module fj-server
 go 1.21.1
 
 require (
-	github.com/fmhr/fj v0.0.8
+	github.com/fmhr/fj v0.0.10
 	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
 )
 
