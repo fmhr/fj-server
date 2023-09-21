@@ -38,6 +38,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, fmt.Sprintf("setConf error: %s", err), http.StatusInternalServerError)
 		return
 	}
+	log.Println("seed is", seed)
 	fmt.Fprintf(w, "seed is %d", seed)
 	fj.Gen(&cnf, seed) // generate in/{seed}.txt
 	// Config
